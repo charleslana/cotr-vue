@@ -10,7 +10,7 @@
       class="img-carousel"
     />
   </v-carousel>
-  <v-container style="height: 1500px;">
+  <v-container style="height: auto;">
     <v-card
       elevation="2"
     >
@@ -20,6 +20,7 @@
       <v-card-text class="text-center"></v-card-text>
     </v-card>
   </v-container>
+  <v-parallax class="parallax"/>
 </template>
 
 <script lang="ts" setup>
@@ -43,5 +44,14 @@ const items = [
 .img-carousel {
   object-fit: cover;
   height: 100vh;
+}
+
+.parallax {
+  background-image: url('../assets/bg_home.jpg');
+  background-size:cover;
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 </style>

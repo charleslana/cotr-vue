@@ -12,7 +12,7 @@
       <v-btn to="/">Home</v-btn>
       <v-btn to="/about">Sobre</v-btn>
       <v-btn to="/ranking">Classificação de Jogadores</v-btn>
-      <v-btn to="/redeem">Resgatar código</v-btn>
+      <v-btn to="/redeem">Resgatar prêmio</v-btn>
     </v-row>
     <v-spacer/>
     <!-- Menu para mobile -->
@@ -53,7 +53,7 @@
 
       <v-list-item to="/redeem">
         <v-icon>mdi-gift</v-icon>
-        <v-list-item-title>Resgatar código</v-list-item-title>
+        <v-list-item-title>Resgatar prêmio</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>

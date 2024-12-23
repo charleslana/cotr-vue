@@ -10,6 +10,7 @@ declare module 'vue' {
     AppBar: typeof import('./components/AppBar.vue')['default']
     AppFooter: typeof import('./components/AppFooter.vue')['default']
     AppHome: typeof import('./components/AppHome.vue')['default']
+    RankingRich: typeof import('./components/RankingRich.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
