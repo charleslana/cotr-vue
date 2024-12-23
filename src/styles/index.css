@@ -1,0 +1,16 @@
+.v-responsive.v-img img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+.v-toolbar-title {
+    flex: 2 !important;
+    width: 100% !important;
+}
+
+.v-toolbar-title__placeholder {
+    overflow: auto !important;
+    text-overflow: unset !important;
+    white-space: unset !important;
+}
