@@ -69,7 +69,14 @@ export default defineConfig({
     ],
   },
   server: {
-    port: 3000,
+    port: 3001,
+    proxy: {
+      '/api': {
+        target: 'https://jsonplaceholder.typicode.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
   css: {
     preprocessorOptions: {

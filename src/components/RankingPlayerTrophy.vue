@@ -1,5 +1,7 @@
 <template>
-  <v-table>
+  <small>O Resultado retorna os 100 melhores</small>
+  <v-skeleton-loader v-if="loading" type="table"></v-skeleton-loader>
+  <v-table v-else>
     <thead>
     <tr>
       <th class="text-left">
@@ -9,7 +11,7 @@
         Jogador
       </th>
       <th class="text-left">
-        Cristais Roxos
+        Troféus
       </th>
     </tr>
     </thead>
@@ -20,53 +22,72 @@
     >
       <td>{{ index + 1 }}</td>
       <td>{{ item.name }}</td>
-      <td>{{ item.crystals }}</td>
+      <td>{{ item.trophy }}</td>
     </tr>
     </tbody>
   </v-table>
 </template>
 
 <script lang="ts" setup>
+import api from "@/config/axios-instance";
+
 const desserts = [
   {
     name: 'Frozen Yogurt',
-    crystals: 159,
+    trophy: 159,
   },
   {
     name: 'Ice cream sandwich',
-    crystals: 237,
+    trophy: 237,
   },
   {
     name: 'Eclair',
-    crystals: 262,
+    trophy: 262,
   },
   {
     name: 'Cupcake',
-    crystals: 305,
+    trophy: 305,
   },
   {
     name: 'Gingerbread',
-    crystals: 356,
+    trophy: 356,
   },
   {
     name: 'Jelly bean',
-    crystals: 375,
+    trophy: 375,
   },
   {
     name: 'Lollipop',
-    crystals: 392,
+    trophy: 392,
   },
   {
     name: 'Honeycomb',
-    crystals: 408,
+    trophy: 408,
   },
   {
     name: 'Donut',
-    crystals: 452,
+    trophy: 452,
   },
   {
     name: 'KitKat',
-    crystals: 518,
+    trophy: 518,
   },
 ];
+
+const loading = ref(true);
+const todos = ref<any[]>([]);
+const error = ref<string | null>(null);
+
+onMounted(async () => {
+  try {
+    const response = await api.get('/todos');
+    todos.value = response.data;
+    console.log(todos.value);
+  } catch (err) {
+    error.value = 'Erro ao buscar os todos.';
+    console.error(err);
+  } finally {
+    loading.value = false;
+  }
+});
 </script>

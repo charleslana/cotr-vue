@@ -8,16 +8,17 @@
       fevereiro de
       2023, tornando o jogo injogável.</p>
     <p class="mb-4">
-      Então, decidi criar um servidor privado na tentativa de reviver o jogo.
+      Então em 28/09/2024 decidi criar um servidor privado na tentativa de reviver o jogo.
     </p>
-    <p class="mb-4">Fique de olho na nossa comunidade <a href="/" target="_blank">(clique aqui para ver como o projeto
+    <p class="mb-4">Fique de olho na nossa comunidade do discord <a :href="discordLink" target="_blank">(clique aqui para ver como o projeto
       está indo)</a>.</p>
-    <p class="mb-4">Espero que gostem. 🏖️🦊📦🐢🌳</p>
+    <p class="mb-4">Espero que gostem, feito de fã para fã. 🏖️🦊📦🐢🌳</p>
     <p class="mb-4">Ass.Charles</p>
   </v-container>
 </template>
 
 <script lang="ts" setup>
+const discordLink = import.meta.env.VITE_DISCORD_LINK;
 </script>
 
 <style scoped>
