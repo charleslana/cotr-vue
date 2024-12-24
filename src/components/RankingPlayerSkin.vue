@@ -11,7 +11,7 @@
         Jogador
       </th>
       <th class="text-left">
-        Total skins obtidas
+        Total de skins obtidas
       </th>
     </tr>
     </thead>
