@@ -24,19 +24,16 @@
 </template>
 
 <script lang="ts" setup>
+import bgCarousel1 from '@/assets/bg_carousel.jpg';
+import bgCarousel2 from '@/assets/bg_carousel_2.jpg';
+import bgCarousel3 from '@/assets/bg_carousel_3.jpg';
+import bgCarousel4 from '@/assets/bg_carousel_4.jpg';
+
 const items = [
-  {
-    src: 'src/assets/bg_carousel.jpg',
-  },
-  {
-    src: 'src/assets/bg_carousel_2.jpg',
-  },
-  {
-    src: 'src/assets/bg_carousel_3.jpg',
-  },
-  {
-    src: 'src/assets/bg_carousel_4.jpg',
-  },
+  {src: bgCarousel1},
+  {src: bgCarousel2},
+  {src: bgCarousel3},
+  {src: bgCarousel4},
 ];
 </script>
 
@@ -48,7 +45,7 @@ const items = [
 
 .parallax {
   background-image: url('../assets/bg_home.jpg');
-  background-size:cover;
+  background-size: cover;
   min-height: 100vh;
   background-attachment: fixed;
   background-position: center;

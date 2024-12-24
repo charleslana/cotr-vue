@@ -17,8 +17,6 @@ declare module 'vue' {
     RankingPlayerSkin: typeof import('./components/RankingPlayerSkin.vue')['default']
     RankingPlayerSurvival: typeof import('./components/RankingPlayerSurvival.vue')['default']
     RankingPlayerTrophy: typeof import('./components/RankingPlayerTrophy.vue')['default']
-    RankingRich: typeof import('./components/RankingRich.vue')['default']
-    RankingStyle: typeof import('./components/RankingStyle.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

@@ -3,7 +3,7 @@
     <form @submit.prevent="handleSubmit">
       <v-text-field
         v-model.trim="state.email"
-        :error-messages="v$.email.$errors.map(e => e.$message)"
+        :error-messages="emailErrors"
         label="Seu E-mail"
         required
         @blur="v$.email.$touch"
@@ -12,7 +12,7 @@
       <v-text-field
         v-model.trim="state.code"
         :counter="10"
-        :error-messages="v$.code.$errors.map(e => e.$message)"
+        :error-messages="codeErrors"
         label="Insira o Código"
         required
         @blur="v$.code.$touch"
@@ -48,6 +48,7 @@
 import {reactive} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
 import {email, required} from '@vuelidate/validators';
+import api from "@/config/axios-instance";
 
 const initialState = {
   code: '',
@@ -65,6 +66,14 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
+const emailErrors = computed(() =>
+  v$.value.email.$errors.map(e => e.$message) as string[]
+);
+
+const codeErrors = computed(() =>
+  v$.value.code.$errors.map(e => e.$message) as string[]
+);
+
 const dialogVisible = ref(false);
 const dialogTitle = ref('');
 const dialogMessage = ref('');
@@ -79,12 +88,25 @@ const handleSubmit = async () => {
     return;
   }
   overlay.value = true;
-  setTimeout(() => {
-    overlay.value = false;
+  try {
+    const response = await api.post('/todos', {
+      email: state.email,
+      code: state.code,
+    });
+    console.log(response);
     dialogTitle.value = 'Sucesso';
     dialogMessage.value = 'Premiação enviada a conta do e-mail com sucesso!';
     dialogVisible.value = true;
-  }, 2000);
+    state.email = '';
+    state.code = '';
+  } catch (error) {
+    console.log(error);
+    dialogTitle.value = 'Erro';
+    dialogMessage.value = 'Ocorreu um erro ao tentar enviar os dados. Tente novamente.';
+    dialogVisible.value = true;
+  } finally {
+    overlay.value = false;
+  }
 };
 </script>
 
