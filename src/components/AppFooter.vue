@@ -1,5 +1,6 @@
 <template>
   <v-footer app height="40">
+    <small>v.{{ version }}</small>
     <a
       v-for="item in items"
       :key="item.title"
@@ -22,8 +23,8 @@
       &copy; 2024-{{ (new Date()).getFullYear() }} <span class="d-none d-sm-inline-block">Crash On The Run, recriado de fã para fã</span>
       —
       <a
-        class="text-decoration-none on-surface"
         :href="discordLink"
+        class="text-decoration-none on-surface"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -34,6 +35,9 @@
 </template>
 
 <script lang="ts" setup>
+import packageJson from '../../package.json';
+
+const version = packageJson.version;
 const discordLink = import.meta.env.VITE_DISCORD_LINK as string;
 
 const items = [
