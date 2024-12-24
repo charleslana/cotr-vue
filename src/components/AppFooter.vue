@@ -23,7 +23,7 @@
       —
       <a
         class="text-decoration-none on-surface"
-        href="/"
+        :href="discordLink"
         rel="noopener noreferrer"
         target="_blank"
       >
