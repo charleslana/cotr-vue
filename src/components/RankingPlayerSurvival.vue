@@ -22,7 +22,7 @@
     >
       <td>{{ index + 1 }}</td>
       <td>{{ item.name }}</td>
-      <td>{{ item.survivalTime }}</td>
+      <td>{{ formatDuration(item.runDuration) }}</td>
     </tr>
     </tbody>
   </v-table>
@@ -34,49 +34,72 @@ import api from "@/config/axios-instance";
 const desserts = [
   {
     name: 'Frozen Yogurt',
-    survivalTime: 159,
+    runDuration: 'PT1M10.305S',
   },
   {
     name: 'Ice cream sandwich',
-    survivalTime: 237,
+    runDuration: 'PT1H5M10S',
   },
   {
     name: 'Eclair',
-    survivalTime: 262,
+    runDuration: 'PT5M10.305S',
   },
   {
     name: 'Cupcake',
-    survivalTime: 305,
+    runDuration: 'PT3H5M10S',
   },
   {
     name: 'Gingerbread',
-    survivalTime: 356,
+    runDuration: null,
   },
   {
     name: 'Jelly bean',
-    survivalTime: 375,
+    runDuration: 'PT1M10.305S',
   },
   {
     name: 'Lollipop',
-    survivalTime: 392,
+    runDuration: 'PT1M10.305S',
   },
   {
     name: 'Honeycomb',
-    survivalTime: 408,
+    runDuration: 'PT1M10.305S',
   },
   {
     name: 'Donut',
-    survivalTime: 452,
+    runDuration: 'PT1M10.305S',
   },
   {
     name: 'KitKat',
-    survivalTime: 518,
+    runDuration: 'PT1M10.305S',
   },
 ];
 
 const loading = ref(true);
 const todos = ref<any[]>([]);
 const error = ref<string | null>(null);
+
+const formatDuration = (duration: string | null): string => {
+  if (!duration) {
+    return "0 horas, 0 minutos e 0 segundos";
+  }
+  const regex = /^PT(\d+)H(\d+)M(\d+(\.\d+)?)S$/;
+  const match = duration.match(regex);
+  if (match) {
+    const hours = parseInt(match[1]);
+    const minutes = parseInt(match[2]);
+    const seconds = parseFloat(match[3]);
+    return `${hours.toFixed(0)} horas, ${minutes.toFixed(0)} minutos e ${seconds.toFixed(2)} segundos`;
+  }
+  const regexWithoutHours = /^PT(\d+)M(\d+(\.\d+)?)S$/;
+  const matchWithoutHours = duration.match(regexWithoutHours);
+  if (matchWithoutHours) {
+    const minutes = parseInt(matchWithoutHours[1]);
+    const seconds = parseFloat(matchWithoutHours[2]);
+    return `${minutes.toFixed(0)} minutos e ${seconds.toFixed(2)} segundos`;
+  }
+  return 'Duração inválida';
+};
+
 
 onMounted(async () => {
   try {
