@@ -34,19 +34,19 @@ import api from "@/config/axios-instance";
 const desserts = [
   {
     name: 'Frozen Yogurt',
-    runDuration: 'PT1M10.305S',
+    runDuration: 70.305,
   },
   {
     name: 'Ice cream sandwich',
-    runDuration: 'PT1H5M10S',
+    runDuration: 70.305,
   },
   {
     name: 'Eclair',
-    runDuration: 'PT5M10.305S',
+    runDuration: 7200.150,
   },
   {
     name: 'Cupcake',
-    runDuration: 'PT3H5M10S',
+    runDuration: 130.305,
   },
   {
     name: 'Gingerbread',
@@ -54,23 +54,23 @@ const desserts = [
   },
   {
     name: 'Jelly bean',
-    runDuration: 'PT1M10.305S',
+    runDuration: null,
   },
   {
     name: 'Lollipop',
-    runDuration: 'PT1M10.305S',
+    runDuration: null,
   },
   {
     name: 'Honeycomb',
-    runDuration: 'PT1M10.305S',
+    runDuration: null,
   },
   {
     name: 'Donut',
-    runDuration: 'PT1M10.305S',
+    runDuration: null,
   },
   {
     name: 'KitKat',
-    runDuration: 'PT1M10.305S',
+    runDuration: null,
   },
 ];
 
@@ -78,28 +78,20 @@ const loading = ref(true);
 const todos = ref<any[]>([]);
 const error = ref<string | null>(null);
 
-const formatDuration = (duration: string | null): string => {
-  if (!duration) {
+const formatDuration = (seconds: number | null): string => {
+  if (seconds === null || seconds < 0) {
     return "0 horas, 0 minutos e 0 segundos";
   }
-  const regex = /^PT(\d+)H(\d+)M(\d+(\.\d+)?)S$/;
-  const match = duration.match(regex);
-  if (match) {
-    const hours = parseInt(match[1]);
-    const minutes = parseInt(match[2]);
-    const seconds = parseFloat(match[3]);
-    return `${hours.toFixed(0)} horas, ${minutes.toFixed(0)} minutos e ${seconds.toFixed(2)} segundos`;
-  }
-  const regexWithoutHours = /^PT(\d+)M(\d+(\.\d+)?)S$/;
-  const matchWithoutHours = duration.match(regexWithoutHours);
-  if (matchWithoutHours) {
-    const minutes = parseInt(matchWithoutHours[1]);
-    const seconds = parseFloat(matchWithoutHours[2]);
-    return `${minutes.toFixed(0)} minutos e ${seconds.toFixed(2)} segundos`;
-  }
-  return 'Duração inválida';
+  const hours = Math.floor(seconds / 3600);
+  const remainingSecondsAfterHours = seconds % 3600;
+  const minutes = Math.floor(remainingSecondsAfterHours / 60);
+  const remainingSeconds = Math.floor(remainingSecondsAfterHours % 60);
+  const parts = [];
+  if (hours > 0) parts.push(`${hours} ${hours === 1 ? 'hora' : 'horas'}`);
+  if (minutes > 0) parts.push(`${minutes} ${minutes === 1 ? 'minuto' : 'minutos'}`);
+  if (remainingSeconds > 0 || parts.length === 0) parts.push(`${remainingSeconds} ${remainingSeconds === 1 ? 'segundo' : 'segundos'}`);
+  return parts.join(', ').replace(/, ([^,]*)$/, ' e $1');
 };
-
 
 onMounted(async () => {
   try {
