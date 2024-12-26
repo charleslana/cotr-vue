@@ -11,7 +11,7 @@
       ></v-text-field>
       <v-text-field
         v-model.trim="state.code"
-        :counter="10"
+        :counter="50"
         :error-messages="codeErrors"
         label="Insira o Código"
         required
@@ -49,6 +49,12 @@ import {reactive} from 'vue';
 import {useVuelidate} from '@vuelidate/core';
 import {email, required} from '@vuelidate/validators';
 import api from "@/config/axios-instance";
+import type {AxiosError} from "axios";
+
+interface Result {
+  error: boolean;
+  message: string;
+}
 
 const initialState = {
   code: '',
@@ -89,20 +95,25 @@ const handleSubmit = async () => {
   }
   overlay.value = true;
   try {
-    const response = await api.post('/todos', {
+    const response = await api.post('/public/player/redeem', {
       email: state.email,
       code: state.code,
     });
-    console.log(response);
+    const result = response.data as Result;
     dialogTitle.value = 'Sucesso';
-    dialogMessage.value = 'Premiação enviada a conta do e-mail com sucesso!';
+    dialogMessage.value = result.message;
     dialogVisible.value = true;
     state.email = '';
     state.code = '';
-  } catch (error) {
+  } catch (err) {
+    const error = err as AxiosError<Result>;
     console.log(error);
     dialogTitle.value = 'Erro';
-    dialogMessage.value = 'Ocorreu um erro ao tentar enviar os dados. Tente novamente.';
+    if (error && error.response && error.response.data) {
+      dialogMessage.value = error.response.data.message;
+    } else {
+      dialogMessage.value = 'Ocorreu um erro ao tentar enviar os dados. Tente novamente.';
+    }
     dialogVisible.value = true;
   } finally {
     overlay.value = false;
