@@ -74,10 +74,7 @@ export default defineConfig({
       '/api': {
         target: 'https://api.cotrapi.workers.dev',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        headers: {
-          'User-Agent': '212;v1;1.170.29;3;1',
-        },
+        rewrite: (path) => path.replace(/^\/api/, '')
       },
     },
   },
