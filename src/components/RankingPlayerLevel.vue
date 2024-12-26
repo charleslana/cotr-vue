@@ -17,12 +17,19 @@
     </thead>
     <tbody>
     <tr
-      v-for="(item, index) in desserts"
+      v-for="(item, index) in items"
       :key="item.name"
     >
       <td>{{ index + 1 }}</td>
       <td>{{ item.name }}</td>
-      <td>{{ item.level }}</td>
+      <td>
+        <img
+          alt="Cristais Roxos"
+          class="table-icon"
+          src="@/assets/exp.png"
+        />
+        {{ item.level }}
+      </td>
     </tr>
     </tbody>
   </v-table>
@@ -31,60 +38,21 @@
 <script lang="ts" setup>
 import api from "@/config/axios-instance";
 
-const desserts = [
-  {
-    name: 'Frozen Yogurt',
-    level: 159,
-  },
-  {
-    name: 'Ice cream sandwich',
-    level: 237,
-  },
-  {
-    name: 'Eclair',
-    level: 262,
-  },
-  {
-    name: 'Cupcake',
-    level: 305,
-  },
-  {
-    name: 'Gingerbread',
-    level: 356,
-  },
-  {
-    name: 'Jelly bean',
-    level: 375,
-  },
-  {
-    name: 'Lollipop',
-    level: 392,
-  },
-  {
-    name: 'Honeycomb',
-    level: 408,
-  },
-  {
-    name: 'Donut',
-    level: 452,
-  },
-  {
-    name: 'KitKat',
-    level: 518,
-  },
-];
+interface Item {
+  name: string;
+  level: number;
+}
 
 const loading = ref(true);
-const todos = ref<any[]>([]);
+const items = ref<Item[]>([]);
 const error = ref<string | null>(null);
 
 onMounted(async () => {
   try {
-    const response = await api.get('/todos');
-    todos.value = response.data;
-    console.log(todos.value);
+    const response = await api.get('/public/player/top-level');
+    items.value = response.data;
   } catch (err) {
-    error.value = 'Erro ao buscar os todos.';
+    error.value = 'Erro ao buscar os dados.';
     console.error(err);
   } finally {
     loading.value = false;

@@ -23,14 +23,21 @@
     </thead>
     <tbody>
     <tr
-      v-for="(item, index) in desserts"
-      :key="item.name"
+      v-for="(item, index) in items"
+      :key="item.guildName"
     >
       <td>{{ index + 1 }}</td>
-      <td>{{ item.name }}</td>
-      <td>{{ item.leader }}</td>
-      <td>{{ item.totalMembers }}</td>
-      <td>{{ item.trophy }}</td>
+      <td>{{ item.guildName }}</td>
+      <td>{{ item.leaderName }}</td>
+      <td>{{ item.totalMembers }} / 30</td>
+      <td>
+        <img
+          alt="Cristais Roxos"
+          class="table-icon"
+          src="@/assets/trophy_guild.png"
+        />
+        {{ formatNumber(item.totalTrophies) }}
+      </td>
     </tr>
     </tbody>
   </v-table>
@@ -38,81 +45,25 @@
 
 <script lang="ts" setup>
 import api from "@/config/axios-instance";
+import {formatNumber} from "@/utils/utils";
 
-const desserts = [
-  {
-    name: 'Frozen Yogurt',
-    trophy: 159,
-    leader: 'Frozen Yogurt',
-    totalMembers: 10,
-  },
-  {
-    name: 'Ice cream sandwich',
-    trophy: 237,
-    leader: 'Ice cream sandwich',
-    totalMembers: 10,
-  },
-  {
-    name: 'Eclair',
-    trophy: 262,
-    leader: 'Eclair',
-    totalMembers: 10,
-  },
-  {
-    name: 'Cupcake',
-    trophy: 305,
-    leader: 'Cupcake',
-    totalMembers: 10,
-  },
-  {
-    name: 'Gingerbread',
-    trophy: 356,
-    leader: 'Gingerbread',
-    totalMembers: 10,
-  },
-  {
-    name: 'Jelly bean',
-    trophy: 375,
-    leader: 'Jelly bean',
-    totalMembers: 10,
-  },
-  {
-    name: 'Lollipop',
-    trophy: 392,
-    leader: 'Lollipop',
-    totalMembers: 10,
-  },
-  {
-    name: 'Honeycomb',
-    trophy: 408,
-    leader: 'Honeycomb',
-    totalMembers: 10,
-  },
-  {
-    name: 'Donut',
-    trophy: 452,
-    leader: 'Donut',
-    totalMembers: 10,
-  },
-  {
-    name: 'KitKat',
-    trophy: 518,
-    leader: 'KitKat',
-    totalMembers: 10,
-  },
-];
+interface Item {
+  guildName: string;
+  totalTrophies: number;
+  totalMembers: number;
+  leaderName: string;
+}
 
 const loading = ref(true);
-const todos = ref<any[]>([]);
+const items = ref<Item[]>([]);
 const error = ref<string | null>(null);
 
 onMounted(async () => {
   try {
-    const response = await api.get('/todos');
-    todos.value = response.data;
-    console.log(todos.value);
+    const response = await api.get('/public/guild/top-trophies');
+    items.value = response.data;
   } catch (err) {
-    error.value = 'Erro ao buscar os todos.';
+    error.value = 'Erro ao buscar os dados.';
     console.error(err);
   } finally {
     loading.value = false;

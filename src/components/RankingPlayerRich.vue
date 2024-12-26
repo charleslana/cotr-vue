@@ -17,12 +17,19 @@
     </thead>
     <tbody>
     <tr
-      v-for="(item, index) in desserts"
+      v-for="(item, index) in items"
       :key="item.name"
     >
       <td>{{ index + 1 }}</td>
       <td>{{ item.name }}</td>
-      <td>{{ formatNumber(item.crystals) }}</td>
+      <td>
+        <img
+          alt="Cristais Roxos"
+          class="table-icon"
+          src="@/assets/crystal.png"
+        />
+        {{ formatNumber(item.purpleCrystals) }}
+      </td>
     </tr>
     </tbody>
   </v-table>
@@ -32,60 +39,21 @@
 import {formatNumber} from "@/utils/utils";
 import api from "@/config/axios-instance";
 
-const desserts = [
-  {
-    name: 'Frozen Yogurt',
-    crystals: 1599,
-  },
-  {
-    name: 'Ice cream sandwich',
-    crystals: 23777,
-  },
-  {
-    name: 'Eclair',
-    crystals: 262,
-  },
-  {
-    name: 'Cupcake',
-    crystals: 305,
-  },
-  {
-    name: 'Gingerbread',
-    crystals: 356,
-  },
-  {
-    name: 'Jelly bean',
-    crystals: 375,
-  },
-  {
-    name: 'Lollipop',
-    crystals: 392,
-  },
-  {
-    name: 'Honeycomb',
-    crystals: 408,
-  },
-  {
-    name: 'Donut',
-    crystals: 452,
-  },
-  {
-    name: 'KitKat',
-    crystals: 518,
-  },
-];
+interface Item {
+  name: string;
+  purpleCrystals: number;
+}
 
 const loading = ref(true);
-const todos = ref<any[]>([]);
+const items = ref<Item[]>([]);
 const error = ref<string | null>(null);
 
 onMounted(async () => {
   try {
-    const response = await api.get('/todos');
-    todos.value = response.data;
-    console.log(todos.value);
+    const response = await api.get('/public/player/top-rich');
+    items.value = response.data;
   } catch (err) {
-    error.value = 'Erro ao buscar os todos.';
+    error.value = 'Erro ao buscar os dados.';
     console.error(err);
   } finally {
     loading.value = false;

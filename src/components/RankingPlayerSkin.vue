@@ -17,12 +17,19 @@
     </thead>
     <tbody>
     <tr
-      v-for="(item, index) in desserts"
+      v-for="(item, index) in items"
       :key="item.name"
     >
       <td>{{ index + 1 }}</td>
       <td>{{ item.name }}</td>
-      <td>{{ item.quantity }}</td>
+      <td>
+        <img
+          alt="Cristais Roxos"
+          class="table-icon"
+          src="@/assets/skin.png"
+        />
+        {{ item.totalSkins }}
+      </td>
     </tr>
     </tbody>
   </v-table>
@@ -31,60 +38,21 @@
 <script lang="ts" setup>
 import api from "@/config/axios-instance";
 
-const desserts = [
-  {
-    name: 'Frozen Yogurt',
-    quantity: 159,
-  },
-  {
-    name: 'Ice cream sandwich',
-    quantity: 237,
-  },
-  {
-    name: 'Eclair',
-    quantity: 262,
-  },
-  {
-    name: 'Cupcake',
-    quantity: 305,
-  },
-  {
-    name: 'Gingerbread',
-    quantity: 356,
-  },
-  {
-    name: 'Jelly bean',
-    quantity: 375,
-  },
-  {
-    name: 'Lollipop',
-    quantity: 392,
-  },
-  {
-    name: 'Honeycomb',
-    quantity: 408,
-  },
-  {
-    name: 'Donut',
-    quantity: 452,
-  },
-  {
-    name: 'KitKat',
-    quantity: 518,
-  },
-];
+interface Item {
+  name: string;
+  totalSkins: number;
+}
 
 const loading = ref(true);
-const todos = ref<any[]>([]);
+const items = ref<Item[]>([]);
 const error = ref<string | null>(null);
 
 onMounted(async () => {
   try {
-    const response = await api.get('/todos');
-    todos.value = response.data;
-    console.log(todos.value);
+    const response = await api.get('/public/player/top-skins');
+    items.value = response.data;
   } catch (err) {
-    error.value = 'Erro ao buscar os todos.';
+    error.value = 'Erro ao buscar os dados.';
     console.error(err);
   } finally {
     loading.value = false;

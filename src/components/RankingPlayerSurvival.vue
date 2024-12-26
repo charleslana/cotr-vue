@@ -17,12 +17,19 @@
     </thead>
     <tbody>
     <tr
-      v-for="(item, index) in desserts"
+      v-for="(item, index) in items"
       :key="item.name"
     >
       <td>{{ index + 1 }}</td>
       <td>{{ item.name }}</td>
-      <td>{{ formatDuration(item.runDuration) }}</td>
+      <td>
+        <img
+          alt="Cristais Roxos"
+          class="table-icon"
+          src="@/assets/time_white.png"
+        />
+        {{ formatDuration(item.runDuration) }}
+      </td>
     </tr>
     </tbody>
   </v-table>
@@ -31,51 +38,13 @@
 <script lang="ts" setup>
 import api from "@/config/axios-instance";
 
-const desserts = [
-  {
-    name: 'Frozen Yogurt',
-    runDuration: 70.305,
-  },
-  {
-    name: 'Ice cream sandwich',
-    runDuration: 70.305,
-  },
-  {
-    name: 'Eclair',
-    runDuration: 7200.150,
-  },
-  {
-    name: 'Cupcake',
-    runDuration: 130.305,
-  },
-  {
-    name: 'Gingerbread',
-    runDuration: null,
-  },
-  {
-    name: 'Jelly bean',
-    runDuration: null,
-  },
-  {
-    name: 'Lollipop',
-    runDuration: null,
-  },
-  {
-    name: 'Honeycomb',
-    runDuration: null,
-  },
-  {
-    name: 'Donut',
-    runDuration: null,
-  },
-  {
-    name: 'KitKat',
-    runDuration: null,
-  },
-];
+interface Item {
+  name: string;
+  runDuration: number;
+}
 
 const loading = ref(true);
-const todos = ref<any[]>([]);
+const items = ref<Item[]>([]);
 const error = ref<string | null>(null);
 
 const formatDuration = (seconds: number | null): string => {
@@ -95,11 +64,10 @@ const formatDuration = (seconds: number | null): string => {
 
 onMounted(async () => {
   try {
-    const response = await api.get('/todos');
-    todos.value = response.data;
-    console.log(todos.value);
+    const response = await api.get('/public/player/top-duration');
+    items.value = response.data;
   } catch (err) {
-    error.value = 'Erro ao buscar os todos.';
+    error.value = 'Erro ao buscar os dados.';
     console.error(err);
   } finally {
     loading.value = false;
