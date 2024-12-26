@@ -9,3 +9,4 @@ status = 200
 from = "/api/*"
 to = "https://api.cotrapi.workers.dev/:splat"
 status = 200
+force = true
