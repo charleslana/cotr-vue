@@ -1,0 +1,11 @@
+# The following redirect is intended for use with most SPA's that handles routing internally.
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+# Redireciona as chamadas para /api para o destino externo
+[[redirects]]
+from = "/api/*"
+to = "https://api.cotrapi.workers.dev/:splat"
+status = 200

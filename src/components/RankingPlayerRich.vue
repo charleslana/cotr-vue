@@ -50,7 +50,7 @@ const error = ref<string | null>(null);
 
 onMounted(async () => {
   try {
-    const response = await api.get('/public/player/top-rich');
+    const response = await api.get('/api/public/player/top-rich');
     items.value = response.data;
   } catch (err) {
     error.value = 'Erro ao buscar os dados.';
