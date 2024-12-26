@@ -5,8 +5,9 @@
 }
 
 .v-toolbar-title {
-    flex: 2 !important;
+    flex: 3 !important;
     width: 100% !important;
+    font-size: calc(2vw + 1rem);
 }
 
 .v-toolbar-title__placeholder {
