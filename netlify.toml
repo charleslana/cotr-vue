@@ -1,3 +1,8 @@
+[[headers]]
+for = "/api/*"
+    [headers.values]
+        User-Agent = "212;v1;1.170.29;3;1"
+
 [[redirects]]
 from = "/api/*"
 to = "https://api.cotrapi.workers.dev/:splat"
